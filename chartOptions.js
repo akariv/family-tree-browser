@@ -6,8 +6,6 @@
 	var p = C.prototype;
 
 	//list the attributes
-	p.width;
-    p.height;
     p.options;
 
 	//construct
@@ -21,9 +19,7 @@
     // - childMargins: (horizontal,vertical,top)
     // - partnerMargin: (horizontal,vertical,left)
     // - SiblingMargin: (horizontal,vertical,right)
-	function constructor(width, height, options){
-		this.width = width;
-        this.height = height;
+	function constructor(options){
         this.options = options;
 	}
 
