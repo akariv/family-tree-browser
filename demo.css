@@ -11,9 +11,29 @@
     border: solid 1px black;
 }
 
+#chart svg {
+    width: 100%;
+    height: 100%;
+}
+
+
 .node {
     position: absolute;
     border: solid 1px black;
     transition-property: height, width, left, top, font-size;
     transition-duration: 1s;
+}
+
+.node[data-sex="F"] {
+    background-color: #ee88cd;
+}
+
+.node[data-sex="M"] {
+    background-color: #A5F2F3
+}
+
+.node > span {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
 }
