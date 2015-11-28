@@ -22,16 +22,25 @@
 		node.pos = center.minus(o.individualSize.mult(0.5));
 		node.size = o.individualSize;
 		if ( node.parents ) {
+			grandparentRatio = o.parentSize.x/(o.parentMargin.horizontal + o.parentSize.x*2)
+			o.grandparentSize = o.parentSize.mult(grandparentRatio);
+			console.log(o.parentSize, o.grandparentSize);
 			numParents = node.parents.length;
 			if ( numParents>0 ) {
 				var box = new Tuple(o.parentSize.x*numParents + o.parentMargin.horizontal*(numParents-1),
 									o.parentSize.y + o.parentMargin.bottom);
 				var left = center.x - box.x/2;
 				var top = node.pos.y - box.y;
-				for ( _parent in node.parents ) {
+				for ( var _parent in node.parents ) {
 					var parent = node.parents[_parent];
 					parent.pos = new Tuple(left,top);
 					parent.size = o.parentSize;
+					for ( var _grandparent in parent.parents ) {
+						var grandparent = parent.parents[_grandparent];
+						grandparent.pos = new Tuple(parent.pos.x+_grandparent*grandparentRatio*(o.parentSize.x+o.parentMargin.horizontal),
+							  parent.pos.y-2*o.grandparentSize.y);
+						grandparent.size = o.grandparentSize;
+					}
 					left += o.parentSize.x + o.parentMargin.horizontal;
 				}
 			}
@@ -43,7 +52,7 @@
 									o.partnerSize.y);
 				var left = node.pos.x + box.x + o.partnerMargin.left;
 				var top = center.y - box.y/2;
-				for ( _partner in node.partners ) {
+				for ( var _partner in node.partners ) {
 					var partner = node.partners[_partner];
 					partner.pos = new Tuple(left,top);
 					partner.size = o.partnerSize;
@@ -70,6 +79,22 @@
 						idx ++;
 						child.pos = new Tuple(left,top);
 						child.size = o.childSize;
+						if ( child.children && child.children.length > 0 ) {
+							var numGrandchildren = child.children.length;
+							var ratio = o.childSize.x / ( numGrandchildren*o.childSize.x + (numGrandchildren-1)*o.childMargin.horizontal );
+							var maxRatio =  o.childSize.x / ( 2*o.childSize.x + o.childMargin.horizontal );
+							if ( ratio > maxRatio ) {
+								ratio = maxRatio;
+							}
+							var grandchildSize = o.childSize.mult(ratio);
+
+							for ( var _grandchild in child.children ) {
+								var grandchild = child.children[_grandchild];
+								grandchild.pos = new Tuple(child.pos.x+_grandchild*ratio*(o.childSize.x+o.childMargin.horizontal),
+									  child.pos.y+child.size.y+grandchildSize.y);
+								grandchild.size = grandchildSize;
+							}
+						}
 						left += o.childSize.x + o.childMargin.horizontal;
 					}
 					top += o.childMargin.vertical + o.childSize.y;

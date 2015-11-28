@@ -1,5 +1,14 @@
 import json
 
+def nameof(name):
+    parts = [x.strip() for x in name.split('/')]
+    if "," in parts[0]:
+        parts[0] = parts[0].split(",")
+        parts[0 ] = parts[0][0]+" (%s)" % "/".join(parts[0][1:])
+    parts = [ parts[2], parts[0], parts[1] ]
+    parts = [p for p in parts if p != '']
+    return " ".join(parts)
+
 if __name__=="__main__":
     records = json.load(open('sample-data/result.json'))['data']
     print("{} records".format(len(records)))
@@ -24,7 +33,7 @@ if __name__=="__main__":
                 props = node['properties']
                 if pid not in ids:
                     idx = len(people)
-                    person = {'children':set(), 'parents':set(), 'partners':set(), 'siblings':set(), 'active_partner':None, 'props':{'sex':props['SEX'],'name':props['NAME'],'id':idx}}
+                    person = {'children':set(), 'parents':set(), 'partners':set(), 'siblings':set(), 'active_partner':None, 'props':{'sex':props['SEX'],'name':nameof(props['NAME']),'id':idx}}
                     people.append(person)
                     ids[pid] = idx
                 else:
@@ -56,6 +65,17 @@ if __name__=="__main__":
                 if r != p:
                     parent['partners'].add(ids[r])
 
+    def cp(d):
+        ret = {}
+        ret.update(d)
+        return ret
+
+    for p in people:
+        p['props']['children'] = [ cp(people[x]['props']) for x in p['children'] ]
+        p['props']['parents'] = [ cp(people[x]['props']) for x in p['parents'] ]
+        # p['props']['children'] = list(p['children'])
+        # p['props']['parents'] = list(p['parents'])
+
     out = []
     for p in people:
         rec = {}
@@ -67,7 +87,7 @@ if __name__=="__main__":
         out.append(rec)
 
     print("{} output records".format(len(out)))
-    out = json.dumps(out)
+    out = json.dumps(out, indent=2)
     out = "nodes = {};".format(out)
     open('nodes.js','w').write(out)
     #
