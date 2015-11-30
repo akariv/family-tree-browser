@@ -110,26 +110,32 @@
 		new_divs.attr('class','node')
 					   .style('opacity',0)
 					   .on("click", function(d) { that.render(d.id); })
-					   .transition().duration(1000)
-					   .style('opacity',1)
+					   .style('top',function(d) { return d.pos.y + (d.pos.y - cn.pos.y) * 1.5; })
+		   			   .style('left',function(d) { return d.pos.x + (d.pos.x - cn.pos.x) * 1.5; })
 					   .attr('data-sex', function(d) { return d.sex; })
 					   ;
 		new_divs.append('span')
 			.text(function(d) { return d.name; } )
 
 
-  	    old_els
-			.transition().duration(1000)
-			.style('opacity',0)
-			.remove();
-
-		els.style('left',function(d) { console.log(d); return d.pos.x; })
+		els.transition().duration(0).delay(10)
+		    .style('left',function(d) { console.log(d); return d.pos.x; })
 			.style('top',function(d) { return d.pos.y; })
 			.style('width',function(d) { return d.size.x; })
 			.style('height',function(d) { return d.size.y; })
 			.style('font-size',function(d) { return d.size.y/2.5; })
+			.style('opacity',1)
 			.attr('data-role',function(d) { return d.class; })
 			;
+
+		old_els
+			.style('top',function(d) { return d.pos.y + (d.pos.y - cn.pos.y) * 1.5; })
+			.style('left',function(d) { return d.pos.x + (d.pos.x - cn.pos.x) * 1.5; })
+			.style('opacity',0)
+			.transition().duration(1000)
+			.remove()
+			;
+
 
 		els.selectAll("span")
 			.style('width',function(d) { return d.size.x; })
