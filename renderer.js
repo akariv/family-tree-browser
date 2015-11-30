@@ -109,7 +109,7 @@
 		new_divs = new_els.append('div');
 		new_divs.attr('class','node')
 					   .style('opacity',0)
-					   .on("click", function(d) { that.render(d.id); })
+					   .on("click", function(d) { window.location.hash = "#" + d.id; })
 					   .style('top',function(d) { return d.pos.y + (d.pos.y - cn.pos.y) * 1.5; })
 		   			   .style('left',function(d) { return d.pos.x + (d.pos.x - cn.pos.x) * 1.5; })
 					   .attr('data-sex', function(d) { return d.sex; })
