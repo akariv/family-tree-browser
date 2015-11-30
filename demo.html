@@ -40,8 +40,25 @@
     });
     var layoutEngine = new FTreeLayouter(new Tuple(600, 600), Options);
     var renderer = new FTreeRenderer("#inner", nodes, layoutEngine);
-    console.log(nodes[2]);
-    renderer.render(2);
+
+    var hashchanged = function() {
+        console.log(window.location.hash);
+        var id = window.location.hash.substring(1);
+        console.log('node# = '+id);
+        try {
+            id = parseInt(id);
+        } catch(e) {
+            id = 0;
+        }
+        if ( isNaN(id) ) {
+            window.location.hash = "#0";
+        } else {
+            renderer.render(id);
+        }
+    };
+
+    window.onhashchange = hashchanged;
+    hashchanged();
 
 </script>
 </html>
