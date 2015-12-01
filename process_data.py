@@ -33,7 +33,17 @@ if __name__=="__main__":
                 props = node['properties']
                 if pid not in ids:
                     idx = len(people)
-                    person = {'children':set(), 'parents':set(), 'partners':set(), 'siblings':set(), 'active_partner':None, 'props':{'sex':props['SEX'],'name':nameof(props['NAME']),'id':idx}}
+                    print props['id'], props.keys()
+                    try:
+                        name = nameof(props['NAME'])
+                    except KeyError:
+                        name = ''
+                    person = {'children':set(), 'parents':set(),
+                              'partners':set(), 'siblings':set(),
+                              'active_partner':None,
+                              'props':{'sex':props.get('SEX', 'U'),
+                                       'name':name,
+                                       'id':idx}}
                     people.append(person)
                     ids[pid] = idx
                 else:
