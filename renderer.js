@@ -10,11 +10,10 @@
 	p.layoutEngine;
 
 	//construct
-	function constructor(selector, nodes, layoutEngine) {
+	function constructor(selector, layoutEngine) {
 		this.selector = selector;
-		this.nodes = nodes;
 		this.layoutEngine = layoutEngine;
-
+		this.nodes = {};
 		this.elements = {};
 		this.vertices = {};
 	}

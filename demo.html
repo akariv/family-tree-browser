@@ -2,7 +2,6 @@
 <head>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.9/d3.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="nodes.js"></script>
     <script src="tuple.js"></script>
     <script src="chartOptions.js"></script>
     <script src="layout.js"></script>
@@ -39,7 +38,7 @@
         siblingMargin: { horizontal:15, vertical:15, right:30 },
     });
     var layoutEngine = new FTreeLayouter(new Tuple(600, 600), Options);
-    var renderer = new FTreeRenderer("#inner", nodes, layoutEngine);
+    var renderer = new FTreeRenderer("#inner", layoutEngine);
 
     var hashchanged = function() {
         console.log(window.location.hash);
@@ -53,7 +52,10 @@
         if ( isNaN(id) ) {
             window.location.hash = "#0";
         } else {
-            renderer.render(id);
+          $.getJSON("http://127.0.0.1:5000/fwalk", {i: id}, function (r) {
+              renderer.nodes[id] = r;
+              renderer.render(id);
+          })
         }
     };
 
