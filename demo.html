@@ -52,7 +52,7 @@
         if ( isNaN(id) ) {
             window.location.hash = "#0";
         } else {
-          $.getJSON("http://127.0.0.1:5000/fwalk", {i: id}, function (r) {
+          $.getJSON("http://test-api.myjewishidentity.org/fwalk", {i: id}, function (r) {
               renderer.nodes[id] = r;
               renderer.render(id);
           })
