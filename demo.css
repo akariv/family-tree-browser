@@ -1,5 +1,5 @@
 #chart {
-    width: 600px;
+    width: 1200px;
     height: 600px;
     margin: 20px;
 }
@@ -21,7 +21,8 @@
     position: absolute;
     border: solid 1px black;
     transition-property: opacity, height, width, left, top, font-size;
-    transition-duration: 1s;
+    transition-duration: 0.5s;
+    transition-timing-function: linear;
 }
 
 .node[data-sex="F"] {

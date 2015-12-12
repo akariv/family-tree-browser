@@ -2,6 +2,8 @@
 <head>
     <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.9/d3.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
     <script src="tuple.js"></script>
     <script src="chartOptions.js"></script>
     <script src="layout.js"></script>
@@ -23,25 +25,26 @@
         // - parentSize: (w,h)
         parentSize: new Tuple(120,30),
         // - partnerSize: (w,h)
-        partnerSize: new Tuple(140,40),
+        partnerSize: new Tuple(120,30),
         // - childSize: (w,h)
         childSize: new Tuple(100,25),
         // - siblingSize: (w,h)
         siblingSize: new Tuple(100,25),
         // - parentMargin: (horizontal,bottom)
-        parentMargin: { horizontal:20, bottom:30},
+        parentMargin: { horizontal:20, vertical:15, bottom:90},
         // - partnerMargin: (horizontal,vertical,left)
-        partnerMargin: { horizontal:15, vertical:15, left:30 },
+        partnerMargin: { horizontal:30, vertical:15, left:50 },
         // - childMargins: (horizontal,vertical,top)
-        childMargin: { horizontal:15, vertical:15, top:30 },
+        childMargin: { horizontal:40, vertical:40, top:90 },
         // - siblingMargin: (horizontal,vertical,right)
-        siblingMargin: { horizontal:15, vertical:15, right:30 },
+        siblingMargin: { horizontal:15, vertical:10, right:30 },
     });
-    var layoutEngine = new FTreeLayouter(new Tuple(600, 600), Options);
-    var renderer = new FTreeRenderer("#inner", layoutEngine);
+    var selector = "#inner";
+    var element = $(selector);
+    var layoutEngine = new FTreeLayouter(new Tuple(element.width(), element.height()), Options);
+    var renderer = new FTreeRenderer(selector, layoutEngine);
 
     var hashchanged = function() {
-        console.log(window.location.hash);
         var id = window.location.hash.substring(1);
         console.log('node# = '+id);
         try {
